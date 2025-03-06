@@ -111,7 +111,7 @@ const DamagedPassportsShow = () => {
 
       // Save the passport details
       setPassportData({ ...passport, date: formattedDate });
-
+   
       // Always set dropdown fields as objects with "value" and "label".
       // For the profile field, we use the fullName as the label.
       form.setFieldsValue({

@@ -114,13 +114,19 @@ function flattenItems(items) {
   };
   const getRejectionStatus = (currentStatus, position) => {
     position = position?.toLowerCase();
-    if (position?.includes("coordinator")) {
+    if (currentStatus === "SentToProjectCoordinator" && position?.includes("projectcoordinator")) {
       return Status.ReturnedToSupervisor;
-    } else if (position?.includes("manager")) {
+    }else if (currentStatus === "ReturnedToProjectCoordinator" && position?.includes("projectcoordinator")) {
+        return Status.ReturnedToSupervisor;
+    } else if (currentStatus === "SentToManager" && position?.includes("manager")) {
       return Status.ReturnedToProjectCoordinator;
-    } else if (position?.includes("director")) {
+    } else if (currentStatus === "ReturnedToManager" && position?.includes("manager")) {
+      return Status.ReturnedToProjectCoordinator;
+    } 
+    else if (currentStatus === "SentToDirector" && position?.includes("director"))  {
       return Status.ReturnedToManager;
     }
+    
     return currentStatus;
   };
 

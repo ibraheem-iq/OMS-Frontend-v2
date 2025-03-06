@@ -78,7 +78,7 @@ export default function SuperVisorExpensesHistory() {
 
 
   const getAvailableStatuses = () => {
-    if (isAdmin || isSupervisor) {
+    if (isAdmin || isSupervisor || userPosition === "ProjectCoordinator") {
       return Object.values(Status);
     }
     const positionStatuses = positionStatusMap[userPosition] || [];
@@ -86,7 +86,7 @@ export default function SuperVisorExpensesHistory() {
   };
 
   const filterExpensesByAllowedStatuses = (expenses) => {
-    if (isAdmin || isSupervisor) return expenses;
+    if (isAdmin || isSupervisor || userPosition === "ProjectCoordinator") return expenses;
 
     const allowedStatuses = getAvailableStatuses();
     return expenses.filter((expense) => {
@@ -161,7 +161,7 @@ export default function SuperVisorExpensesHistory() {
         },
       };
 
-      if (selectedStatuses.length === 0 && !isAdmin && !isSupervisor) {
+      if (selectedStatuses.length === 0 && !isAdmin && !isSupervisor  && userPosition !== "ProjectCoordinator") {
         const allowedStatuses = getAvailableStatuses();
         searchBody.statuses = allowedStatuses;
       }
@@ -206,7 +206,7 @@ export default function SuperVisorExpensesHistory() {
   }, [fetchGovernorates]);
 
   useEffect(() => {
-    if (!isAdmin && !isSupervisor && userPosition) {
+    if (!isAdmin && !isSupervisor && userPosition !== "ProjectCoordinator" && userPosition) {
       const allowedStatuses = getAvailableStatuses();
       if (allowedStatuses.length > 0) {
         setSelectedStatuses(allowedStatuses);
@@ -223,7 +223,7 @@ export default function SuperVisorExpensesHistory() {
   const handleReset = () => {
     setStartDate(null);
     setEndDate(null);
-    if (isAdmin || isSupervisor) {
+    if (isAdmin || isSupervisor || userPosition === "ProjectCoordinator") {
       setSelectedStatuses([]);
     } else {
       const allowedStatuses = getAvailableStatuses();
